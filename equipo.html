@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentación Equipo Biomédico</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+      color: #333;
+    }
+    header {
+      background: #005b96;
+      color: white;
+      padding: 15px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+    header p {
+      margin: 5px 0 0;
+      font-size: 14px;
+    }
+    .tabs {
+      display: flex;
+      background: #e0e0e0;
+    }
+    .tabs button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: #e0e0e0;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .tabs button.active {
+      background: #ffffff;
+      border-bottom: 3px solid #005b96;
+    }
+    .content {
+      padding: 15px;
+    }
+    .card {
+      background: white;
+      margin-bottom: 12px;
+      padding: 15px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .card a {
+      text-decoration: none;
+      color: #005b96;
+      font-weight: bold;
+    }
+    .report-btn {
+      display: block;
+      background: #c62828;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    footer {
+      text-align: center;
+      font-size: 12px;
+      padding: 10px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1 id="equipoNombre">Equipo Biomédico</h1>
+  <p id="equipoInfo">Placa: -- | Servicio: --</p>
+</header>
+
+<div class="tabs">
+  <button class="active" onclick="showTab('asistencial')">👩‍⚕️ Asistencial</button>
+  <button onclick="showTab('auditoria')">📋 Auditoría</button>
+  <button onclick="showTab('reportes')">🛠️ Reportes</button>
+</div>
+
+<div class="content" id="asistencial">
+  <div class="card"><a id="guiaRapida" href="#" target="_blank">📄 Guía rápida</a></div>
+  <div class="card"><a id="alarmas" href="#" target="_blank">🚨 Alarmas frecuentes</a></div>
+  <div class="card"><a id="manual" href="#" target="_blank">📘 Manual de usuario</a></div>
+</div>
+
+<div class="content" id="auditoria" style="display:none">
+  <div class="card"><a id="hojaVida" href="#" target="_blank">📑 Hoja de vida</a></div>
+  <div class="card"><a id="mantenimiento" href="#" target="_blank">🧾 Certificados de mantenimiento</a></div>
+  <div class="card"><a id="calibracion" href="#" target="_blank">📏 Calibraciones</a></div>
+</div>
+
+<div class="content" id="reportes" style="display:none">
+  <a class="report-btn" href="https://keeper.qsystems.co:8443/mantenimiento/pages/login?to=%2Fdashboard%2Fanalytics" target="_blank">
+    📢 Reportar falla / Solicitar mantenimiento
+  </a>
+</div>
+
+<footer>
+  Ingeniería Biomédica – Instituto del Corazón
+</footer>
+
+<script>
+  function showTab(tab) {
+    document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
+    document.getElementById(tab).style.display = 'block';
+
+    document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const placa = params.get('placa') || 'DESCONOCIDA';
+
+  // ⚠️ AQUÍ AJUSTAS LAS RUTAS DE LOS PDFs
+  const basePath = `./documentos/${placa}`;
+
+  document.getElementById('equipoNombre').innerText = 'Equipo Biomédico';
+  document.getElementById('equipoInfo').innerText = `Placa: ${placa}`;
+
+  document.getElementById('guiaRapida').href = `${basePath}/asistencial/guia-rapida.pdf`;
+  document.getElementById('alarmas').href = `${basePath}/asistencial/alarmas.pdf`;
+  document.getElementById('manual').href = `${basePath}/asistencial/manual.pdf`;
+
+  document.getElementById('hojaVida').href = `${basePath}/auditoria/hoja-vida.pdf`;
+  document.getElementById('mantenimiento').href = `${basePath}/auditoria/mantenimiento.pdf`;
+  document.getElementById('calibracion').href = `${basePath}/auditoria/calibracion.pdf`;
+</script>
+
+</body>
+</html>
